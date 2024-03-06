@@ -1,0 +1,19 @@
+FROM alpine:3.19
+
+ARG PROJECT=nat-tcp-server
+ARG AUTHOR="developer@xxcheng.cn"
+
+LABEL org.opencontainers.image.authors=${AUTHOR}
+
+WORKDIR /app
+ENV PROJECT=${PROJECT}
+
+ENV TZ=Asia/Shanghai
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+RUN apk update --no-cache && apk add --no-cache tzdata
+
+COPY ./build/${PROJECT} ./
+
+EXPOSE 9933
+
+ENTRYPOINT ./${PROJECT}
