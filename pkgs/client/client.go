@@ -45,7 +45,7 @@ func (c *Client) Call(localPort int) (*NatInfo, error) {
 	c.natInfos[localPort] = natInfo
 	go func() {
 		for {
-			_, err = conn.Write([]byte("hello"))
+			_, err = conn.Write([]byte("nat_info"))
 			natInfo, err = read(conn)
 			if err == nil {
 				c.natInfos[localPort] = natInfo
