@@ -1,6 +1,6 @@
 package goutils
 
-const version = "v1.1"
+const version = "v1.1.0"
 
 func Version() string {
 	return version
