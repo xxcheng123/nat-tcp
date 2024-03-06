@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"nat-tcp/pkgs/ip"
+	"github.com/xxcheng123/nat-tcp/pkgs/ip"
 	"net"
 	"strconv"
 )

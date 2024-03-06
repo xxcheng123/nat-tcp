@@ -3,7 +3,7 @@ package client
 import (
 	"encoding/json"
 	"fmt"
-	"nat-tcp/pkgs/ip"
+	"github.com/xxcheng123/nat-tcp/pkgs/ip"
 	"net"
 	"strconv"
 	"time"

@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"nat-tcp/pkgs/client"
+	"github.com/xxcheng123/nat-tcp/pkgs/client"
 	"os"
 	"os/signal"
 )
