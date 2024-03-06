@@ -37,7 +37,7 @@ func (c *Client) Call(localPort int) (*NatInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	_, err = conn.Write([]byte("hello"))
+	_, err = conn.Write([]byte("nat_info"))
 	if err != nil {
 		return nil, err
 	}
@@ -52,6 +52,7 @@ func (c *Client) Call(localPort int) (*NatInfo, error) {
 			}
 			time.Sleep(time.Second * 10)
 		}
+		conn.Close()
 	}()
 	return natInfo, err
 }

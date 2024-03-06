@@ -13,11 +13,13 @@ import (
 var port = 9933
 
 var SIGNAL_CLOSE = []byte("close")
+var SIGNAL_NAT_INFO = []byte("nat_info")
 
 func init() {
 	flag.IntVar(&port, "port", 9933, "服务端口")
 }
 func main() {
+	flag.Parse()
 	l, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", port))
 	if err != nil {
 		panic(err)
@@ -35,22 +37,23 @@ func main() {
 
 func handle(conn net.Conn) {
 	defer conn.Close()
-	write(conn)
 	bs := make([]byte, 1024)
 	var retryTimes = 0
 	for {
-		_, err := conn.Read(bs)
+		n, err := conn.Read(bs)
 		if err != nil {
 			retryTimes++
 			continue
 		} else if retryTimes > 3 {
 			break
 		}
-		if bytes.Compare(bs, SIGNAL_CLOSE) == 0 {
+		if bytes.Compare(bs[:n], SIGNAL_CLOSE) == 0 {
 			break
 		}
 		retryTimes = 0
-		write(conn)
+		if bytes.Compare(bs[:n], SIGNAL_NAT_INFO) == 0 {
+			write(conn)
+		}
 	}
 }
 

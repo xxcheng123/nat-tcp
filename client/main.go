@@ -12,13 +12,14 @@ var remoteAddr string
 var localPort int
 
 func init() {
-	flag.StringVar(&remoteAddr, "addr", "localhost:9933", "服务器地址")
+	flag.StringVar(&remoteAddr, "addr", "frps.xxcheng.cn:9933", "服务器地址")
 	flag.IntVar(&localPort, "port", 9986, "本地端口")
 }
 
 func main() {
+	flag.Parse()
 	natClient := client.NewClient(remoteAddr)
-	info, err := natClient.Call(1999)
+	info, err := natClient.Call(localPort)
 	if err != nil {
 		panic(err)
 	}
