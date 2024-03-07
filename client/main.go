@@ -3,9 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/xxcheng123/nat-tcp/pkgs/client"
 	"os"
 	"os/signal"
+
+	"github.com/xxcheng123/nat-tcp/pkgs/client"
 )
 
 var remoteAddr string
