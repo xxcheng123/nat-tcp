@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/xxcheng123/nat-tcp/pkgs/ip"
@@ -15,6 +16,7 @@ type Client struct {
 	natInfos   map[int]*NatInfo
 	RemoteAddr string
 	running    bool
+	mu         sync.RWMutex
 }
 type NatInfo struct {
 	PublicHost  string
@@ -24,10 +26,14 @@ type NatInfo struct {
 }
 
 func (c *Client) Call(localPort int) (*NatInfo, error) {
+	c.mu.RLock()
 	oldNatInfo, ok := c.natInfos[localPort]
+	c.mu.RUnlock()
 	if ok {
 		return oldNatInfo, nil
 	}
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	dialer := &net.Dialer{
 		LocalAddr: &net.TCPAddr{
 			Port: localPort,
